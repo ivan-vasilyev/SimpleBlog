@@ -73,7 +73,6 @@ app.get('/login', function(req, res) {
 
 app.post('/login', auth);
 
-//app.all('/*', mustBeAuthenticated);
 app.all('/users', mustBeAuthenticated);
 app.all('/users/*', mustBeAuthenticated);
 
