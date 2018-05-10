@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('cookie-session');
 
 const index = require('./app_server/routes/index');
 const users = require('./app_server/routes/users');
@@ -19,15 +20,69 @@ app.set('view engine', 'twig');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('secret'));
+app.use(session({
+	keys: ['secret'], 
+	maxAge: 24 * 60 * 60 * 1000
+}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+const User = require('./app_server/models/users').userModel;
+
+const LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+	User.findById(id, function(err, user) {
+		done(err, user);
+	});
+});
+
+const auth = passport.authenticate(
+	'local', {
+		successRedirect: '/', 
+		failureRedirect: '/login'
+	}
+);
+
+const mustBeAuthenticated = function (req, res, next) {
+	req.isAuthenticated() ? next() : res.redirect('/login');
+};
+
+app.get('/login', function(req, res) {
+	res.render('login');
+});
+
+app.post('/login', auth);
+
+//app.all('/*', mustBeAuthenticated);
+app.all('/users', mustBeAuthenticated);
+app.all('/users/*', mustBeAuthenticated);
 
 app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
