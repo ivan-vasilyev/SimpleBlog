@@ -1,0 +1,114 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  <!-- Left Container -->
+  <div id="lcnt">
+
+    <!-- Post -->
+    <div class="post">
+
+      <!-- Post Details -->
+      <div class="post_inf">
+
+        <span>October 13</span><br />
+        <span class="posn">Orchida</span><br />
+        <span class="posc">3 Comments</span>
+
+      </div>
+
+      <!-- Post Title - Permalink -->
+      <h1>
+        <a href="#">New Banner Free Vector Graphic</a>
+      </h1>
+
+      <!-- Post Content -->
+      <img src="images/art_pic1.jpg" alt="art_pic1" />
+
+      <p>Lorem ipsum dolor sit amet, consequat blandit scelerisque lacus in quis. Felis cras, adipisci in ac donec donec nulla quis. Luctus justo ultricies at, ligula dolor quis, dictum libero facilisis potenti. Ipsum consequat, purus nibh eget ea pede dis. Neque in qui aenean purus. Quis orci sed at aliquet, tempor facilisis turpis sapien molestie rutrum, mus orci malesuada dis integer dignissim dui, tempor ligula commodo lobortis ac. Ut urna varius quis odio tortor, elementum enim vestibulum. Sed lorem. Amet diam, aptent facere, nec ullamcorper, viverra nam et ut suscipit, ornare ut sed urna sem cursus id.</p>
+
+    </div>
+
+    <h2>
+      <a href="#">3 comments</a>
+    </h2>
+
+    <!-- Comments -->
+    <div class="comments">
+
+      <!-- Comment -->
+      <div class="comment">
+
+        <div class="comm_hdr">
+          <p>1. Persia Emily <span> | February 20, 2009 04:33</span></p>
+        </div>
+
+        <div class="avat">
+          <img src="images/avatar.jpg" alt="avatar" />
+          <img src="images/avatar_frame.png" alt="avatar_frame" class="avatar_frame" />
+        </div>
+      
+        <p class="comm_txt">
+          How excited I am! Coquette Part4 comes out!<br /> 
+          I love Dryicons' products very much! <br />
+          <br />	
+          They're all good!
+        </p>
+
+      </div>
+
+      <!-- Comment -->
+      <div class="comment">
+
+        <div class="comm_hdr">
+          <p>2. spyece <span> | February 27, 2009 09:43</span></p>
+        </div>
+
+        <div class="avat">
+          <img src="images/avatar.jpg" alt="avatar" />
+          <img src="images/avatar_frame.png" alt="avatar_frame" class="avatar_frame" />
+        </div>
+      
+        <p class="comm_txt">
+          Please realease more of such, these icon rocks, thanks a lot for these.
+        </p>
+
+      </div>
+
+      <!-- Comment -->
+      <div class="comment">
+
+        <div class="comm_hdr">
+          <p>3. Keith D <span> | April 15, 2009 04:25</span></p>
+        </div>
+
+        <div class="avat">
+          <img src="images/avatar.jpg" alt="avatar" />
+          <img src="images/avatar_frame.png" alt="avatar_frame" class="avatar_frame" />
+        </div>
+      
+        <p class="comm_txt">
+          Superb colours... some of the icons can be used for lots of things.<br />
+          I've used them to brighten up my website, and make it look as though I know what I'm doing. Can't praise you enough.
+        </p>
+
+      </div>
+
+    </div>
+
+    <h2>Post your comments</h2>
+
+    <!-- Comment Form -->			
+    <form id="cmnt_frm" method="post" action="">
+      <p><input type="text" name="author" size="22" tabindex="1" id="author"/><label>Name <span>(required)</span></label></p>
+      <p><input type="text" name="email" size="22" tabindex="2" id="email"/><label>Mail <span>(will not be published) (required)</span></label></p>
+      <p><input type="text" name="url" size="22" tabindex="3" id="url"/><label>Website</label></p>
+      <p>
+        <textarea name="comment" cols="65" rows="10" tabindex="4" id="comment"></textarea>
+      </p>
+      <p>
+        <input type="submit" name="submit" value="Post comment" tabindex="5" id="submit"/>
+      </p>
+    </form>
+
+  </div>
+{% endblock %}

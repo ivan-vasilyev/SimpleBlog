@@ -11,22 +11,13 @@ userSchema.methods.verifyPassword = function(password){
   return (this.password === password + this.salt) ? true : false;
 };
 
-const User = db.model('User', userSchema);
+module.exports = db.model('User', userSchema);
 
-module.exports = {
-  userModel: User,
+{
   // GET /
   list(){
     return User.find({}).exec();
-    /* return new Promise((resolve, reject) => {
-      Task.find({}).exec((err, res) => {
-        if (err) {
-          reject(err);
-        }
-        console.log(res);
-        resolve(res);
-      });
-    });  */   
+      
   },
   // POST /
   add(user){ // task {text: '', complete: false}
@@ -67,31 +58,3 @@ module.exports = {
     return Task.remove({_id: id});
   },
 };
-
-
-
-/* const first = new Task({
-  id: 3,
-  text: 'Третья задача',
-  complete: false
-});
-
-first.save(err => {
-  if (err) {
-    console.log(err);
-  }
-
-  console.log('Task created');
-}); */
-
-/* (function list(){
-  return new Promise((resolve, reject) => {
-    Task.find({}).exec((err, res) => {
-      if (err) {
-        reject(err);
-      }
-
-      resolve(res);
-    });
-  });    
-})().then(res => console.log(res), err => console.error(err)); */

@@ -32,7 +32,7 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-const User = require('./app_server/models/users').userModel;
+const User = require('./app_server/models/users');
 
 const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
