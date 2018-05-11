@@ -1,36 +1,33 @@
 const User = require('../models/users');
 
-const list = async function(req, res, next) {
-  res.locals.user = req.user;
-  
-  try {
-    res.locals.users = await User.find({}).exec();;
-  } catch (error) {
-    res.locals.error = error.message;
-  }
-  res.render('users');
-};
-
-const add = async function(req, res, next) {
-  if (req.body.username && req.body.password && req.body.email) {
-    const salt = '1111';
-    const user = {
-      username: req.body.username,
-      password: req.body.password + salt,
-      email: req.body.email,
-      salt,
-    };
-
+module.exports = {
+  async list(req, res, next) {
+    res.locals.user = req.user;
+    
     try {
-      await users.add(user);
+      res.locals.users = await User.find({}).exec();;
     } catch (error) {
       res.locals.error = error.message;
     }
-    res.redirect('/users');
+    res.render('users');
+  },
+  // Исправить add
+  async add(req, res, next) {
+    if (req.body.username && req.body.password && req.body.email) {
+      const salt = '1111';
+      const newUser = new User({
+        username: req.body.username,
+        password: req.body.password + salt,
+        email: req.body.email,
+        salt: user.salt
+      });
+  
+      try {
+        await newUser.save();
+      } catch (error) {
+        res.locals.error = error.message;
+      }
+      res.redirect('/users');
+    }
   }
-};
-
-module.exports = {
-  list, 
-  add
 };
