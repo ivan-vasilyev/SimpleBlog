@@ -12,12 +12,11 @@ userSchema.methods.verifyPassword = function(password){
 };
 
 module.exports = db.model('User', userSchema);
-
+/* 
 {
   // GET /
   list(){
-    return User.find({}).exec();
-      
+    return User.find({}).exec(); 
   },
   // POST /
   add(user){ // task {text: '', complete: false}
@@ -29,21 +28,6 @@ module.exports = db.model('User', userSchema);
     });
 
     return newUser.save();
-    /* return new Promise((resolve, reject) => {
-      const newTask = new Task({
-        id: task.id,
-        text: task.text,
-        complete: task.complete,
-      });
-
-      newTask.save(err => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve();
-      });
-    }); */
   },
   // PUT /
 	change(id, text){
@@ -56,5 +40,6 @@ module.exports = db.model('User', userSchema);
   // DELETE /
   delete(id){
     return Task.remove({_id: id});
-  },
+  }
 };
+ */
