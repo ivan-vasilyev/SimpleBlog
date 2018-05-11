@@ -1,10 +1,10 @@
-const users = require('../models/users');
+const User = require('../models/users');
 
 const list = async function(req, res, next) {
-  res.locals.userObj = req.user;
-
+  res.locals.user = req.user;
+  
   try {
-    res.locals.users = await users.list();
+    res.locals.users = await User.find({}).exec();;
   } catch (error) {
     res.locals.error = error.message;
   }
