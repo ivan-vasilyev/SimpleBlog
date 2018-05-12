@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('cookie-session');
+const fileUpload = require('express-fileupload');
 
 const index = require('./app_server/routes/index');
 const users = require('./app_server/routes/users');
@@ -26,7 +27,7 @@ app.use(session({
 	maxAge: 24 * 60 * 60 * 1000
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(fileUpload());
 
 const passport = require('passport');
 app.use(passport.initialize());
