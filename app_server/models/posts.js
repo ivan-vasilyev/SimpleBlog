@@ -13,8 +13,7 @@ const commentSchema = new Schema({
   text: {
     type: String,
     required: true
-  },
-  relComment: [commentSchema]
+  }
 });
 
 const postSchema = new Schema({
