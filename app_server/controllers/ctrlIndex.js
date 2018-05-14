@@ -15,6 +15,7 @@ const uploadNewFile = (req, FilePathOnServer) => {
 }
 
 const listAll = (req, res, next) => {
+  res.locals.posts = Post.find({}).populate().exec();
   res.render('index');
 }
 
