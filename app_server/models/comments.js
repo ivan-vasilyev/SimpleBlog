@@ -1,7 +1,11 @@
 const {db, Schema} = require('./db');
 
-const postSchema = new Schema({
-  header: {
+const commentSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
     type: String,
     required: true
   },
@@ -13,7 +17,6 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  image: String,
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
@@ -28,8 +31,8 @@ const postSchema = new Schema({
   }]
 });
 
-postSchema.virtual('likes').get(function(){
+commentSchema.virtual('likes').get(function(){
   return this.positiveLikes.length - this.negativeLikes.length;
 });
 
-module.exports = db.model('Post', postSchema);
+module.exports = db.model('Comment', commentSchema);
