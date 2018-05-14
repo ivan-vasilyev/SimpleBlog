@@ -133,5 +133,8 @@ module.exports = {
   listAll,
   formNewPost,
   viewPost,
-  addNewPost
+  addNewPost,
+  formChangePost,
+  changePost,
+  deletePost
 };
