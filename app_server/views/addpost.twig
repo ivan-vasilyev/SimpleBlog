@@ -11,10 +11,11 @@
 
     <!-- Post Form -->			
     <form id="cmnt_frm" method="post" action="" enctype="multipart/form-data">
-      <p><label>Заголовок</label><input type="text" name="header" size="22" tabindex="1" id="header"/></p>
+      <input type="hidden" name="id" value="{{post.id}}"/>
+      <p><label>Заголовок</label><input type="text" name="header" size="22" tabindex="1" id="header" value="{{post.header}}"/></p>
       <p><label>Картинка</label><input type="file" name="file"/></p>
       <p>
-        <textarea name="text" cols="75" rows="14" tabindex="4" id="text"></textarea>
+        <textarea name="text" cols="75" rows="14" tabindex="4" id="text">{{post.text}}</textarea>
       </p>
       <p>
         <input type="submit" name="submit" value="Создать" tabindex="5" id="submit"/>
