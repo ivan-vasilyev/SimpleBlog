@@ -14,34 +14,3 @@ userSchema.methods.verifyPassword = function(password){
 };
 
 module.exports = db.model('User', userSchema);
-/* 
-{
-  // GET /
-  list(){
-    return User.find({}).exec(); 
-  },
-  // POST /
-  add(user){ // task {text: '', complete: false}
-    const newUser = new User({
-      username: user.username,
-      password: user.password,
-      email: user.email,
-      salt: user.salt
-    });
-
-    return newUser.save();
-  },
-  // PUT /
-	change(id, text){
-    return Task.update({_id: id}, { $set: { text: text }});
-  },
-  // PATCH /
-	complete(id){
-    return Task.update({_id: id}, { $set: { complete: true }});
-  },
-  // DELETE /
-  delete(id){
-    return Task.remove({_id: id});
-  }
-};
- */

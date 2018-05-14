@@ -6,5 +6,6 @@ const ctrlIndex = require('../controllers/ctrlIndex');
 router.get('/', ctrlIndex.listAll);
 router.get('/posts', ctrlIndex.formNewPost);
 router.post('/posts', ctrlIndex.addNewPost);
+router.get('/posts/:id', ctrlIndex.viewPost);
 
 module.exports = router;

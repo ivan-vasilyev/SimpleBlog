@@ -14,16 +14,31 @@ const uploadNewFile = (req, FilePathOnServer) => {
   });
 }
 
-const listAll = (req, res, next) => {
-  res.locals.posts = Post.find({}).populate().exec();
-  res.render('index');
+const listAll = async (req, res, next) => {
+  try {
+    res.locals.posts = await Post.find({}).populate().exec();
+    res.render('index');
+  } catch (error) {
+    res.render('error');
+  }
 }
 
 const formNewPost = (req, res, next) => {
   res.render('addpost');
 }
 
-const addNewPost = async(req, res, next) => {
+const viewPost = async (req, res, next) => {
+  if (req.params.id) {
+    try {
+      res.locals.post = await Post.findById(req.params.id).populate().exec();
+      res.render('post');
+    } catch (error) {
+      res.render('error');
+    }
+  }
+}
+
+const addNewPost = async (req, res, next) => {
   if (req.body.header && req.body.text) {
     const newPost = new Post({
       header: req.body.header,
@@ -56,5 +71,6 @@ const addNewPost = async(req, res, next) => {
 module.exports = {
   listAll,
   formNewPost,
+  viewPost,
   addNewPost
 };
