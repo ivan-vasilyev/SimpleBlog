@@ -106,7 +106,7 @@ const addNewPost = async (req, res, next) => {
       text: req.body.text
     });
 
-    if (req.files) {
+    if (req.files.file) {
       const filePath = path.join('public', 'images', req.files.file.name);
       try {
         await uploadNewFile(req, filePath);
