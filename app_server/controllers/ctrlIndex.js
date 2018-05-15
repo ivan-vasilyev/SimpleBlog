@@ -48,17 +48,17 @@ const viewPost = async (req, res, next) => {
 
 // Добавление нового поста
 const addNewComment = async (req, res, next) => {
-  if (req.params.postId && req.params.name && req.params.email && req.params.comment) {
+  if (req.body.postId && req.body.name && req.body.email && req.body.comment) {
     const newComment = new Comment({
-      name: req.params.name,
-      email: req.params.email,
-      text: req.params.comment
+      name: req.body.name,
+      email: req.body.email,
+      text: req.body.comment
     });
-
+    
     // Перед добавлением комментария находим текущий пост
     let currentPost = '';
     try {
-      currentPost = await Post.findById(req.params.postId).exec();
+      currentPost = await Post.findById(req.body.postId).exec();
     } catch (error) {
       return res.render('error'); 
     }
