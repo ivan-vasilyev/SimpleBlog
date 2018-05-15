@@ -68,6 +68,10 @@ const mustBeAuthenticated = function (req, res, next) {
 	req.isAuthenticated() ? next() : res.redirect('/login');
 };
 
+const isAdmin = function (req, res, next) {
+	req.isAuthenticated() && req.user.isAdmin ? next() : res.redirect('/login');
+};
+
 app.get('/login', function(req, res) {
 	res.render('login');
 });

@@ -5,7 +5,11 @@ const userSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  salt: String
+  salt: String,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 userSchema.methods.verifyPassword = function(password){

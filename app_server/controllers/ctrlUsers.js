@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const User = require('../models/users');
 
+// Функция и шаблон для админа
 const list = async(req, res, next) => {
   res.locals.user = req.user;
   
@@ -12,8 +13,20 @@ const list = async(req, res, next) => {
   res.render('users');
 }
 
-// Исправить add
-const add = async(req, res, next) => {
+// Функция по запросу выдает либо форму для регистрации, 
+// либо открывает личный кабинет.
+const addFormOrLK = async (req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+    return res.render('lk');
+  }
+
+  res.render('login');
+}
+
+// TODO
+// Функция добавления нового юзера
+const addUser = async(req, res, next) => {
   if (req.body.username && req.body.password && req.body.email) {
     const salt = new Buffer(
       crypto.randomBytes(16).toString('base64'), 
@@ -39,5 +52,6 @@ const add = async(req, res, next) => {
 
 module.exports = {
   list,
-  add
+  addFormOrLK,
+  addUser
 };

@@ -3,6 +3,7 @@ const Comment = require('../models/comments');
 const path = require('path');
 const fs = require('fs');
 
+// Функция загурзки файла на сервер
 const uploadNewFile = (req, FilePathOnServer) => {
   return new Promise((resolve, reject) => {
     req.files.file.mv(FilePathOnServer, function(err) {
@@ -15,6 +16,7 @@ const uploadNewFile = (req, FilePathOnServer) => {
   });
 }
 
+// Отображение всех постов для главной страницы
 const listAll = async (req, res, next) => {
   try {
     res.locals.posts = await Post.find({}).populate().exec();
@@ -24,10 +26,12 @@ const listAll = async (req, res, next) => {
   }
 }
 
+// Вывод формы добавления нового поста
 const formNewPost = (req, res, next) => {
   res.render('addpost');
 }
 
+// Вывод страницы с полным текстом поста
 const viewPost = async (req, res, next) => {
   if (req.params.id) {
     try {
@@ -42,6 +46,7 @@ const viewPost = async (req, res, next) => {
   }
 }
 
+// Добавление нового поста
 const addNewComment = async (req, res, next) => {
   if (req.params.postId && req.params.name && req.params.email && req.params.comment) {
     const newComment = new Comment({
@@ -50,6 +55,7 @@ const addNewComment = async (req, res, next) => {
       text: req.params.comment
     });
 
+    // Перед добавлением комментария находим текущий пост
     let currentPost = '';
     try {
       currentPost = await Post.findById(req.params.postId).exec();
@@ -57,6 +63,7 @@ const addNewComment = async (req, res, next) => {
       return res.render('error'); 
     }
 
+    // Сохраняем комментарий, добавляем к посту и сохраняем пост.
     try {
       const savedComment = await newComment.save();
       currentPost.comments.push(savedComment);
@@ -70,6 +77,7 @@ const addNewComment = async (req, res, next) => {
   }
 }
 
+// Вывод формы для редактирования поста
 const formChangePost = async (req, res, next) => {
   if (req.params.id) {
     try {
@@ -81,17 +89,30 @@ const formChangePost = async (req, res, next) => {
   }
 }
 
+// Функция изменения поста
 const changePost = async (req, res, next) => {
   if (req.body.id && req.body.header && req.body.text) {
-    const newPost = await Post.findById(req.body.id).exec();
-
+    // Находим текущий пост
+    let newPost = '';
+    try {
+      newPost = await Post.findById(req.body.id).exec();
+    } catch (error) {
+      return res.render('error');
+    }
+    
+    // обновляем данные
     newPost.header = req.body.header;
     newPost.text = req.body.text;
 
+    // Если пришла новая картинка
     if (req.files) {
       const filePath = path.join('public', 'images', req.files.file.name);
+      
+      // Определяем абсолютный путь до старой картинки
       let removeFilePath = path.join(__dirname, '../',
         'public', 'images', newPost.image.substr(8));
+
+      // Загружаем новую картинку
       try {
         await uploadNewFile(req, filePath);
         newPost.image = '/images/' + req.files.file.name;
@@ -100,6 +121,7 @@ const changePost = async (req, res, next) => {
         return res.render('addpost');
       }
       
+      // Удаление старой картинки
       try {
         await new Promise((resolve, reject) => {
           fs.unlink(removeFilePath, err => {
@@ -114,6 +136,7 @@ const changePost = async (req, res, next) => {
       }
     }
 
+    // Сохраняем пост со всеми изменениями
     newPost.save(err => {
       if (err) {
         res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
@@ -126,6 +149,7 @@ const changePost = async (req, res, next) => {
   }
 }
 
+// Удаление поста
 const deletePost = async (req, res, next) => {
   if (req.params.id) {
     try {
@@ -144,6 +168,7 @@ const addNewPost = async (req, res, next) => {
       text: req.body.text
     });
 
+    // Если пришла картинка, загружаем ее
     if (req.files.file) {
       const filePath = path.join('public', 'images', req.files.file.name);
       try {
@@ -155,6 +180,7 @@ const addNewPost = async (req, res, next) => {
       }
     }
 
+    // Сохранем новый пост
     newPost.save(err => {
       if (err) {
         res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
