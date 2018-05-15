@@ -96,7 +96,14 @@ const changePost = async (req, res, next) => {
 }
 
 const deletePost = async (req, res, next) => {
-
+  if (req.params.id) {
+    try {
+      await Post.findByIdAndRemove(req.params.id).exec();
+      res.render('index');
+    } catch (error) {
+      res.render('error');
+    }
+  }
 }
 
 const addNewPost = async (req, res, next) => {
