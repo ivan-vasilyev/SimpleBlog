@@ -31,11 +31,42 @@ const formNewPost = (req, res, next) => {
 const viewPost = async (req, res, next) => {
   if (req.params.id) {
     try {
+      if (req.user) {
+        res.locals.user = req.user;
+      }
       res.locals.post = await Post.findById(req.params.id).populate().exec();
       res.render('post');
     } catch (error) {
       res.render('error');
     }
+  }
+}
+
+const addNewComment = async (req, res, next) => {
+  if (req.params.postId && req.params.name && req.params.email && req.params.comment) {
+    const newComment = new Comment({
+      name: req.params.name,
+      email: req.params.email,
+      text: req.params.comment
+    });
+
+    let currentPost = '';
+    try {
+      currentPost = await Post.findById(req.params.postId).exec();
+    } catch (error) {
+      return res.render('error'); 
+    }
+
+    try {
+      const savedComment = await newComment.save();
+      currentPost.comments.push(savedComment);
+      res.locals.post = await currentPost.save();
+      res.locals.flashMessage = 'Комментарий успешно добавлен.';
+    } catch (error) {
+      res.locals.flashMessage = 'Произошла ошибка сохранения комментария.';
+      res.locals.post = currentPost;
+    }
+    res.render('post');
   }
 }
 
@@ -140,6 +171,7 @@ module.exports = {
   listAll,
   formNewPost,
   viewPost,
+  addNewComment,
   addNewPost,
   formChangePost,
   changePost,
