@@ -1,6 +1,10 @@
 const {db, Schema} = require('./db');
 
 const postSchema = new Schema({
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   header: {
     type: String,
     required: true

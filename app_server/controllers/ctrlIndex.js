@@ -30,7 +30,14 @@ const deleteFile = (removeFilePath) => {
 // Отображение всех постов для главной страницы
 const listAll = async (req, res, next) => {
   try {
-    res.locals.posts = await Post.find({}).populate().exec();
+    const skip = (req.query.page * 3) || 0;
+    const allCount = await Post.count({}).exec();
+    if (skip > count) {
+      return res.render('error');
+    }
+    res.locals.posts = await Post.find({}).skip(skip).limit(3).populate().exec();
+    res.locals.posts.allCount = allCount;
+    res.locals.posts.currentPage = req.query.page || 1;
     res.render('index');
   } catch (error) {
     res.render('error');

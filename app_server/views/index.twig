@@ -4,30 +4,31 @@
   <!-- Left Container -->
   <div id="lcnt">
 
-    <!-- Post -->
-    <div class="post">
-      
-      <!-- Post Details -->
-      <div class="post_inf">
+    {% for post in posts %}
+      <!-- Post -->
+      <div class="post">
+        
+        <!-- Post Details -->
+        <div class="post_inf">
 
-        <span>October 13</span><br />
-        <span class="posn">Orchida</span><br />
-        <a class="posc" href="article.html">3 Comments</a>
+          <span>{{post.date|date("m/d/Y")}}</span><br />
+          <span class="posn">{{post.author.name}}</span><br />
+          <a class="posc" href="article.html">{{post.comments|length}} Comments</a>
+
+        </div>
+
+        <!-- Post Title - Permalink -->
+        <h1>
+          <a href="article.html">{{post.header|e}}</a>
+        </h1>
+
+        <!-- Post Content -->
+        <a class="pic_lnk" href="/posts/{{post.id}}"><img src="{{post.image}}" alt="{{post.header|e}}" /></a>
+
+        <p>{{post.text|e}}</p>
 
       </div>
-
-      <!-- Post Title - Permalink -->
-      <h1>
-        <a href="article.html">New Banner Free Vector Graphic</a>
-      </h1>
-
-      <!-- Post Content -->
-      <a class="pic_lnk" href="article.html"><img src="images/post_pic1.jpg" alt="post_pic1" /></a>
-
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum facilisis, lectus eu tempor posuere, augue nisi blandit ante, non tempor nibh lorem non ante. Donec mollis vulputate aliquam. Aliquam luctus placerat ipsum sed volutpat. Sed rhoncus, odio nec iaculis faucibus, felis risus pulvinar leo, sed suscipit ipsum sapien vel arcu. Nullam ac varius nisi. Duis pulvinar, dolor et dignissim porta, nunc risus laoreet tellus, pellentesque consectetur nibh dui sit amet purus. Curabitur a mauris sapien, a tempus justo. Nunc aliquam vehicula dapibus. Ut nec nulla nunc, vel adipiscing libero. Nam suscipit orci ac est blandit volutpat. Phasellus dignissim velit vitae mauris sodales lacinia mollis magna vulputate. Phasellus aliquam est eros, nec pharetra risus. Suspendisse dictum nunc eget lectus sodales lobortis. Aenean scelerisque suscipit tempor. Sed viverra sollicitudin mauris sit amet pulvinar.</p>
-
-    </div>
-
+    {% endfor %}
     <!-- Post -->
     <div class="post">
 
@@ -79,15 +80,33 @@
 
     <!-- Pagination -->	
     <div class="pagination">				
+      
+      
+      <span class="prev" 
+      {% if posts.currentPage != 1 %} 
+        href="/?page={{posts.currentPage - 1}}" 
+      {% endif %}>&laquo;Previous</span>
+      
+      {% for page in range(1, posts.allCount) %}
+        <span {{ if page == posts.currentPage}} 
+                class="act" 
+              {{ else }}
+                href="/?page={{page}}"
+              {{ endif }}>{{page}}</span>
+      {% endfor %}
 
-      <span class="prev">&laquo;Previous</span>
-      <span class="act">1</span>
-      <a href="#">2</a>
+      <a class="next" 
+      {% if posts.currentPage < posts.allCount %} 
+        href="/?page={{posts.currentPage + 1}}" 
+      {% endif %}>Next&raquo;</a>
+
+      <!-- <a href="#">2</a>
       <a href="#">3</a>
       <a href="#">4</a>
       <a href="#">5</a>
       <a href="#">6</a>
-      <a class="next" href="#">Next&raquo;</a>
+
+      <a class="next" href="#">Next&raquo;</a> -->
 
     </div>
 
