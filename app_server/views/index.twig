@@ -25,7 +25,7 @@
         <!-- Post Content -->
         <a class="pic_lnk" href="/posts/{{post.id}}"><img src="{{post.image}}" alt="{{post.header|e}}" /></a>
 
-        <p>{{post.text|e}}</p>
+        <p>{{post.text|slice(0, 300)|e}}</p>
 
         <p> Оценить <a href="">+</a> {{post.likes}} <a href="">-</a> </p>
 
