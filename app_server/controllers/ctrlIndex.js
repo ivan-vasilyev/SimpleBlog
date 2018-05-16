@@ -16,6 +16,17 @@ const uploadNewFile = (req, FilePathOnServer) => {
   });
 }
 
+const deleteFile = (removeFilePath) => {
+  return new Promise((resolve, reject) => {
+    fs.unlink(removeFilePath, err => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
 // Отображение всех постов для главной страницы
 const listAll = async (req, res, next) => {
   try {
@@ -129,33 +140,23 @@ const changePost = async (req, res, next) => {
       res.locals.flashMessage = 'Не удалось загрузить файл, попробуйте снова.';
       return res.render('addpost');
     }
-    
-    // Вынести в отдельну функцию и переписать сейвы
+   
     // Удаление старой картинки
     try {
-      await new Promise((resolve, reject) => {
-        fs.unlink(removeFilePath, err => {
-          if (err) {
-            reject(err);
-          }
-          resolve();
-        });
-      });
+      await deleteFile(removeFilePath);
     } catch (error) {
       res.locals.flashMessage += 'Старый файл не удалось удалить';
     }
   }
 
   // Сохраняем пост со всеми изменениями
-  newPost.save(err => {
-    if (err) {
-      res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
-      return res.render('addpost');
-    }
-
+  try {
+    await newPost.save();
     res.locals.flashMessage = 'Запись успешно изменена';
-    res.render('addpost');
-  });
+  } catch (error) {
+    res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
+  }
+  res.render('addpost');
 }
 
 // Удаление поста
@@ -195,15 +196,13 @@ const addNewPost = async (req, res, next) => {
   }
 
   // Сохранем новый пост
-  newPost.save(err => {
-    if (err) {
-      res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
-      return res.render('addpost');
-    }
-
+  try {
+    await newPost.save();
     res.locals.flashMessage = 'Запись успешно создана';
-    res.render('addpost');
-  });
+  } catch (error) {
+    res.locals.flashMessage = 'Произошла ошибка. Попробуйте снова.';
+  }
+  res.render('addpost');
 }
 
 module.exports = {
