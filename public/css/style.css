@@ -212,8 +212,16 @@ body {
 	color:#758792;
 	background-color:#FFF;
 }
+.pagination a.prev {
+	width:76px;
+}
 .pagination a.next {
 	width:48px;
+}
+.pagination span.next {
+	width:48px;
+	color:#758792;
+	background-color:#FFF;
 }
 #rcnt {
 	width:290px;

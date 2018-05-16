@@ -29,15 +29,16 @@ const deleteFile = (removeFilePath) => {
 
 // Отображение всех постов для главной страницы
 const listAll = async (req, res, next) => {
+  
   try {
-    const skip = (req.query.page * 3) || 0;
+    const skip = ((req.query.page - 1) * 3) || 0;
     const allCount = await Post.count({}).exec();
-    if (skip > count) {
+    if (skip > allCount) {
       return res.render('error');
     }
     res.locals.posts = await Post.find({}).skip(skip).limit(3).populate().exec();
-    res.locals.posts.allCount = allCount;
-    res.locals.posts.currentPage = req.query.page || 1;
+    res.locals.allCount = Math.ceil(allCount / 3);
+    res.locals.currentPage = req.query.page || 1;
     res.render('index');
   } catch (error) {
     res.render('error');

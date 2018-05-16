@@ -13,102 +13,46 @@
 
           <span>{{post.date|date("m/d/Y")}}</span><br />
           <span class="posn">{{post.author.name}}</span><br />
-          <a class="posc" href="article.html">{{post.comments|length}} Comments</a>
+          <a class="posc" href="/posts/{{post.id}}">{{post.comments|length}} Comments</a>
 
         </div>
 
         <!-- Post Title - Permalink -->
         <h1>
-          <a href="article.html">{{post.header|e}}</a>
+          <a href="/posts/{{post.id}}">{{post.header|e}}</a>
         </h1>
 
         <!-- Post Content -->
         <a class="pic_lnk" href="/posts/{{post.id}}"><img src="{{post.image}}" alt="{{post.header|e}}" /></a>
 
-        <p>{{post.text|slice(0, 300)|e}}</p>
-
-        <p> Оценить <a href="">+</a> {{post.likes}} <a href="">-</a> </p>
+        <p>{{post.text|slice(0, 900)|e}}</p>
 
       </div>
     {% endfor %}
-    <!-- Post -->
-    <div class="post">
-
-      <!-- Post Details -->
-      <div class="post_inf">
-
-        <span>October 13</span><br />
-        <span class="posn">Orchida</span><br />
-        <span class="posc">6 Comments</span>
-
-      </div>
-
-      <!-- Post Title - Permalink -->
-      <h1>
-        <a href="#">Decorative Frame Free Vector Graphic</a>
-      </h1>
-
-      <!-- Post Content -->
-      <img src="images/post_pic2.jpg" alt="post_pic2" />
-
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum facilisis, lectus eu tempor posuere, augue nisi blandit ante, non tempor nibh lorem non ante. Donec mollis vulputate aliquam. Aliquam luctus placerat ipsum sed volutpat. Sed rhoncus, odio nec iaculis faucibus, felis risus pulvinar leo, sed suscipit ipsum sapien vel arcu. Nullam ac varius nisi. Duis pulvinar, dolor et dignissim porta, nunc risus laoreet tellus, pellentesque consectetur nibh dui sit amet purus. Curabitur a mauris sapien, a tempus justo. Nunc aliquam vehicula dapibus. Ut nec nulla nunc, vel adipiscing libero. Nam suscipit orci ac est blandit volutpat. Phasellus dignissim velit vitae mauris sodales lacinia mollis magna vulputate. Phasellus aliquam est eros, nec pharetra risus. Suspendisse dictum nunc eget lectus sodales lobortis. Aenean scelerisque suscipit tempor. Sed viverra sollicitudin mauris sit amet pulvinar.</p>
-
-    </div>
-
-    <!-- Post -->
-    <div class="post">
-
-      <!-- Post Details -->
-      <div class="post_inf">
-
-        <span>October 13</span><br />
-        <span class="posn">Orchida</span><br />
-        <span class="posc">6 Comments</span>
-
-      </div>
-
-      <!-- Post Title - Permalink -->
-      <h1>
-        <a href="#">Grungy Landscape Free Vector Graphic</a>
-      </h1>
-
-      <!-- Post Content -->
-      <img src="images/post_pic3.jpg" alt="post_pic3" />
-
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum facilisis, lectus eu tempor posuere, augue nisi blandit ante, non tempor nibh lorem non ante. Donec mollis vulputate aliquam. Aliquam luctus placerat ipsum sed volutpat. Sed rhoncus, odio nec iaculis faucibus, felis risus pulvinar leo, sed suscipit ipsum sapien vel arcu. Nullam ac varius nisi. Duis pulvinar, dolor et dignissim porta, nunc risus laoreet tellus, pellentesque consectetur nibh dui sit amet purus. Curabitur a mauris sapien, a tempus justo. Nunc aliquam vehicula dapibus. Ut nec nulla nunc, vel adipiscing libero. Nam suscipit orci ac est blandit volutpat. Phasellus dignissim velit vitae mauris sodales lacinia mollis magna vulputate. Phasellus aliquam est eros, nec pharetra risus. Suspendisse dictum nunc eget lectus sodales lobortis. Aenean scelerisque suscipit tempor. Sed viverra sollicitudin mauris sit amet pulvinar.</p>
-
-
-    </div>
 
     <!-- Pagination -->	
     <div class="pagination">				
       
+      {% if currentPage != 1 %}
+        <a class="prev" href="/?page={{currentPage - 1}}">&laquo;Previous</a>
+      {% else %}
+        <span class="prev">&laquo;Previous</span>
+      {% endif %}
       
-      <span class="prev" 
-      {% if posts.currentPage != 1 %} 
-        href="/?page={{posts.currentPage - 1}}" 
-      {% endif %}>&laquo;Previous</span>
-      
-      {% for page in range(1, posts.allCount) %}
-        <span {{ if page == posts.currentPage}} 
-                class="act" 
-              {{ else }}
-                href="/?page={{page}}"
-              {{ endif }}>{{page}}</span>
+      {% for page in range(1, allCount) %}
+        {% if page == currentPage %}
+          <span class="act">{{page}}</span>
+        {% else %}
+          <a href="/?page={{page}}">{{page}}</a>
+        {% endif %}
       {% endfor %}
 
-      <a class="next" 
-      {% if posts.currentPage < posts.allCount %} 
-        href="/?page={{posts.currentPage + 1}}" 
-      {% endif %}>Next&raquo;</a>
-
-      <!-- <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#">6</a>
-
-      <a class="next" href="#">Next&raquo;</a> -->
+      {% if currentPage < allCount %}
+        <a class="next" href="/?page={{currentPage + 1}}">Next&raquo;</a>
+      {% else %}
+        <span class="next">Next&raquo;</span>
+      {% endif %}
+      
 
     </div>
 
