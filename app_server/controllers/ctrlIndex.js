@@ -29,7 +29,6 @@ const deleteFile = (removeFilePath) => {
 
 // Отображение всех постов для главной страницы
 const listAll = async (req, res, next) => {
-  
   try {
     const skip = ((req.query.page - 1) * 3) || 0;
     const allCount = await Post.count({}).exec();
