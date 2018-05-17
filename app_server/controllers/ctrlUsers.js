@@ -28,6 +28,11 @@ const loginForm = (req, res, next) => {
   res.render('login');
 }
 
+// Форма регистрации
+const register = (req, res, next) => {
+  res.render('register');
+}
+
 // Функция добавления нового юзера
 const addUser = async (req, res, next) => {
   if (!req.body.username && !req.body.password && !req.body.email) {
@@ -48,9 +53,10 @@ const addUser = async (req, res, next) => {
   });
 
   try {
-    await newUser.save();
+    await newUser.save().exec();
   } catch (error) {
     res.locals.error = error.message;
+    res.render('error');
   }
   res.redirect('/users');
 }
@@ -59,5 +65,6 @@ module.exports = {
   adminPage,
   lk,
   loginForm,
-  addUser
+  addUser,
+  register
 };

@@ -5,8 +5,9 @@ const auth = require('./auth');
 
 /* GET users listing. */
 router.get('/', auth.mustBeAuthenticated, ctrlUsers.lk);
-router.post('/', auth.mustBeAuthenticated, ctrlUsers.addUser);
+router.post('/', ctrlUsers.addUser);
 router.get('/login', ctrlUsers.loginForm);
+router.get('/register', ctrlUsers.register);
 router.get('/admin', auth.isAdmin, ctrlUsers.adminPage);
 
 module.exports = router;

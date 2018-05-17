@@ -60,7 +60,7 @@ const viewPost = async (req, res, next) => {
     if (req.user) {
       res.locals.user = req.user;
     }
-    res.locals.post = await Post.findById(req.params.id).populate().exec();
+    res.locals.post = await Post.findById(req.params.id).populate('comments').exec();
     res.render('post');
   } catch (error) {
     res.render('error');
@@ -82,7 +82,7 @@ const addNewComment = async (req, res, next) => {
   // Перед добавлением комментария находим текущий пост
   let currentPost = '';
   try {
-    currentPost = await Post.findById(req.body.postId).exec();
+    currentPost = await Post.findById(req.body.postId).populate('comments').exec();
   } catch (error) {
     return res.render('error'); 
   }

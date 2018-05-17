@@ -7,17 +7,16 @@
       <h2>{{flashMessage}}</h2>
     {% endif %}
 
-    <h2>Авторизация</h2>
+    <h2>Регистрация</h2>
 
     <!-- Auth Form -->			
-    <form id="cmnt_frm" method="post" action="/users/login">
+    <form id="cmnt_frm" method="post" action="/users">
       <p><label>Login</label><input type="text" name="username"/></p>
       <p><label>Password</label><input type="password" name="password"/></p>
+      <p><label>E-mail</label><input type="text" name="email"/></p>
       <p>
-        <input type="submit" name="submit" value="Отправить" tabindex="5" id="submit"/>
+        <input type="submit" name="submit" value="Зарегистрироваться" tabindex="5" id="submit"/>
       </p>
-      <br>
-      <p><a href="/users/register">Зарегистрироваться</a></p>
     </form>
 
   </div>
