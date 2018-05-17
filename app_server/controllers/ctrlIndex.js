@@ -16,6 +16,7 @@ const uploadNewFile = (req, FilePathOnServer) => {
   });
 }
 
+// Функия удаления файла с сервера
 const deleteFile = (removeFilePath) => {
   return new Promise((resolve, reject) => {
     fs.unlink(removeFilePath, err => {
@@ -27,7 +28,7 @@ const deleteFile = (removeFilePath) => {
   });
 }
 
-// Отображение всех постов для главной страницы
+// Отображение всех постов для главной страницы, с пагинацией
 const listAll = async (req, res, next) => {
   try {
     const skip = ((req.query.page - 1) * 3) || 0;
