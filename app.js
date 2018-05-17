@@ -57,29 +57,14 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-const auth = passport.authenticate(
+const needAuth = passport.authenticate(
   'local', {
-		successRedirect: '/', 
-		failureRedirect: '/login'
+		successRedirect: '/users', 
+		failureRedirect: '/users/login'
 	}
 );
 
-const mustBeAuthenticated = function (req, res, next) {
-	req.isAuthenticated() ? next() : res.redirect('/login');
-};
-
-const isAdmin = function (req, res, next) {
-	req.isAuthenticated() && req.user.isAdmin ? next() : res.redirect('/login');
-};
-
-app.get('/login', function(req, res) {
-	res.render('login');
-});
-
-app.post('/login', auth);
-
-app.all('/users', mustBeAuthenticated);
-app.all('/users/*', mustBeAuthenticated);
+app.post('/users/login', needAuth);
 
 app.use('/', index);
 app.use('/users', users);

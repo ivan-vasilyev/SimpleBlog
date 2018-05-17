@@ -1,5 +1,22 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>404 Not Found</h1>
+  <!-- Left Container -->
+  <div id="lcnt">
+    {% if flashMessage %}
+      <h2>{{flashMessage}}</h2>
+    {% endif %}
+
+    <h2>Авторизация</h2>
+
+    <!-- Auth Form -->			
+    <form id="cmnt_frm" method="post" action="/users/login">
+      <p><label>Login</label><input type="text" name="username"/></p>
+      <p><label>Password</label><input type="password" name="password"/></p>
+      <p>
+        <input type="submit" name="submit" value="Отправить" tabindex="5" id="submit"/>
+      </p>
+    </form>
+
+  </div>
 {% endblock %}
