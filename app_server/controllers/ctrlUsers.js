@@ -36,7 +36,7 @@ const register = (req, res, next) => {
 // Функция добавления нового юзера
 const addUser = async (req, res, next) => {
   if (!req.body.username && !req.body.password && !req.body.email) {
-    res.render('error');
+    return res.render('error');
   }
 
   const salt = new Buffer(
@@ -44,21 +44,20 @@ const addUser = async (req, res, next) => {
     'base64'
   );
 
-  const newUser = new User({
-    username: req.body.username,
-    password: crypto.pbkdf2Sync(
-      req.body.password, salt, 1000, 64).toString('base64'),
-    email: req.body.email,
-    salt: salt
-  });
-
   try {
-    await newUser.save().exec();
+    const newUser = await User.create({
+      username: req.body.username,
+      password: crypto.pbkdf2Sync(
+        req.body.password, salt, 1000, 64, 'sha512').toString('base64'),
+      email: req.body.email,
+      salt: salt
+    });
   } catch (error) {
     res.locals.error = error.message;
-    res.render('error');
+    return res.render('error');
   }
-  res.redirect('/users');
+  res.locals.flashMessage = 'Пользователь успешно создан.';
+  return res.render('login');
 }
 
 module.exports = {

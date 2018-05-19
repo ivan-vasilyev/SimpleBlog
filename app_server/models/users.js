@@ -5,7 +5,7 @@ const userSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  salt: String,
+  salt: Buffer,
   isAdmin: {
     type: Boolean,
     default: false
@@ -13,8 +13,7 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.verifyPassword = function(password){
-  return (this.password === crypto.pbkdf2Sync(
-    req.body.password, this.salt, 1000, 64).toString('base64')) ? true : false;
+  return (this.password === crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('base64')) ? true : false;
 };
 
 module.exports = db.model('User', userSchema);

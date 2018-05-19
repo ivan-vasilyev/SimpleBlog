@@ -59,7 +59,7 @@ passport.deserializeUser(function(id, done) {
 
 const needAuth = passport.authenticate(
   'local', {
-		successRedirect: '/users', 
+		successRedirect: '/', 
 		failureRedirect: '/users/login'
 	}
 );
