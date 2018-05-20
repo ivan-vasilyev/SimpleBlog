@@ -127,6 +127,12 @@ const changePost = async (req, res, next) => {
   } catch (error) {
     return res.render('error');
   }
+
+  // Определяем абсолютный путь до старой картинки, если она есть
+  let removeFilePath = '';
+  if (newPost.image) {
+    removeFilePath = path.join(__dirname, '../../', 'public', 'images', newPost.image.substr(8));
+  }
   
   // обновляем данные
   newPost.header = req.body.header;
@@ -135,10 +141,6 @@ const changePost = async (req, res, next) => {
   // Если пришла новая картинка
   if (req.files.file) {
     const filePath = path.join('public', 'images', req.files.file.name);
-    
-    // Определяем абсолютный путь до старой картинки
-    let removeFilePath = path.join(__dirname, '../',
-      'public', 'images', newPost.image.substr(8));
 
     // Загружаем новую картинку
     try {
@@ -149,11 +151,13 @@ const changePost = async (req, res, next) => {
       return res.render('addpost');
     }
    
-    // Удаление старой картинки
-    try {
-      await deleteFile(removeFilePath);
-    } catch (error) {
-      res.locals.flashMessage += 'Старый файл не удалось удалить';
+    // Удаление старой картинки, если она была
+    if (removeFilePath) {
+      try {
+        await deleteFile(removeFilePath);
+      } catch (error) {
+        res.locals.flashMessage += 'Старый файл не удалось удалить';
+      }
     }
   }
 
