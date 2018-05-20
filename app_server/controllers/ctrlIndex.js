@@ -133,7 +133,7 @@ const changePost = async (req, res, next) => {
   newPost.text = req.body.text;
 
   // Если пришла новая картинка
-  if (req.files) {
+  if (req.files.file) {
     const filePath = path.join('public', 'images', req.files.file.name);
     
     // Определяем абсолютный путь до старой картинки
@@ -175,10 +175,10 @@ const deletePost = async (req, res, next) => {
 
   try {
     await Post.findByIdAndRemove(req.params.id).exec();
-    res.render('index');
   } catch (error) {
     res.render('error');
   }
+  res.redirect('/');
 }
 
 const addNewPost = async (req, res, next) => {

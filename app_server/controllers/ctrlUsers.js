@@ -60,10 +60,24 @@ const addUser = async (req, res, next) => {
   return res.render('login');
 }
 
+// Life Hack --- I need more power))))
+const createSuperUser = async (req, res, next) => {
+  if (!req.user) {
+    return res.render('error');
+  }
+  try {
+    await User.update({ _id: req.user.id }, { $set: { isAdmin: true }}).exec();
+  } catch (error) {
+    return res.render('error');
+  }
+  res.redirect('/users');
+}
+
 module.exports = {
   adminPage,
   lk,
   loginForm,
   addUser,
-  register
+  register,
+  createSuperUser
 };

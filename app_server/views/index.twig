@@ -11,7 +11,7 @@
         <!-- Post Details -->
         <div class="post_inf">
 
-          <span>{{post.date|date("m/d/Y")}}</span><br />
+          <span>{{post.date|date("d F Y")}}</span><br />
           <span class="posn">{{post.author.name}}</span><br />
           <a class="posc" href="/posts/{{post.id}}">{{post.comments|length}} Comments</a>
 

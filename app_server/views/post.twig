@@ -63,7 +63,7 @@
     <!-- Comment Form -->			
     <form id="cmnt_frm" method="post" action="">
       <input type="hidden" name="postId" value="{{post.id}}"/>
-      <p><input type="text" name="name" size="22" tabindex="1" id="author" value="{{user.name}}"/><label>Name <span>(заполнять обязательно)</span></label></p>
+      <p><input type="text" name="name" size="22" tabindex="1" id="author" value="{{user.username}}"/><label>Name <span>(заполнять обязательно)</span></label></p>
       <p><input type="text" name="email" size="22" tabindex="2" id="email" value="{{user.email}}"/><label>E-mail <span>(не публикуется, заполнять обязательно)</span></label></p>
       <p>
         <textarea name="comment" cols="65" rows="10" tabindex="4" id="comment"></textarea>
