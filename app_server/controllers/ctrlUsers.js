@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const User = require('../models/users');
 
-// Функция и шаблон для админа
+// Функция отображения ЛК админа, после авторизации юзера как админа.
 const adminPage = async (req, res, next) => {
   res.locals.admin = req.user;
   
@@ -13,7 +13,7 @@ const adminPage = async (req, res, next) => {
   res.render('admin');
 }
  
-// Личный кабинет.
+// Личный кабинет юзера
 const lk = async (req, res, next) => {
   if (!req.user) {
     res.render('error');

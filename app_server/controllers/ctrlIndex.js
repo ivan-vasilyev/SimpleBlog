@@ -67,7 +67,7 @@ const viewPost = async (req, res, next) => {
   }
 }
 
-// Добавление нового поста
+// Добавление нового комментария
 const addNewComment = async (req, res, next) => {
   if (!req.body.postId && !req.body.name && !req.body.email && !req.body.comment) {
     return res.render('error');
@@ -185,6 +185,7 @@ const deletePost = async (req, res, next) => {
   res.redirect('/');
 }
 
+// Добавление нового поста
 const addNewPost = async (req, res, next) => {
   if (!req.body.header && !req.body.text) {
     return res.render('error');
